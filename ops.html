@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Medicine Continuity — Operations Console</title>
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/ops.css" />
+</head>
+<body>
+
+<nav class="site-nav">
+  <div class="wrap">
+    <div class="brand"><span class="brand-mark">M</span> MedInsta <span style="font-weight:500;color:var(--color-text-muted);">· Medicine Continuity</span></div>
+    <div class="nav-links">
+      <a href="app.html" target="_blank">Customer App ↗</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap ops-shell">
+  <div class="ops-header">
+    <div>
+      <h1>Exception Workflows</h1>
+      <p>Human-in-the-loop view of what MediBuddy is doing across repeat-order exceptions.</p>
+    </div>
+    <span class="chip">3 active · mock data</span>
+  </div>
+
+  <div class="ops-layout">
+    <div class="ops-table-card">
+      <table class="ops-table">
+        <thead>
+          <tr>
+            <th>Customer</th>
+            <th>Order</th>
+            <th>Issue</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="ops-rows"></tbody>
+      </table>
+    </div>
+
+    <div class="ops-detail" id="ops-detail">
+      <div class="d-empty">Select a workflow to view agent activity and audit trail.</div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/data.js"></script>
+<script src="js/ops.js"></script>
+</body>
+</html>

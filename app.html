@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MedInsta — Mobile Prototype</title>
+<script>
+  // If ever embedded in an iframe, or viewed on an actual narrow
+  // mobile browser: fill the available space instead of showing the
+  // desktop phone-mockup bezel, to avoid a phone-within-a-phone look.
+  (function () {
+    var isEmbedded = window.self !== window.top;
+    var isNarrow = window.innerWidth <= 480;
+    if (isEmbedded || isNarrow) document.documentElement.classList.add("fill-frame");
+  })();
+</script>
+<link rel="stylesheet" href="css/styles.css" />
+<link rel="stylesheet" href="css/app.css" />
+</head>
+<body class="app-body">
+<div class="device-frame">
+<div class="app-shell">
+
+  <div class="status-bar">
+    <span>9:41</span>
+    <span>MedInsta</span>
+    <span>100%</span>
+  </div>
+
+  <!-- ===================== HOME ===================== -->
+  <section class="screen active" id="screen-home">
+    <div class="app-header">
+      <div>
+        <div class="home-greeting">Good evening</div>
+        <div class="home-title" id="home-name">Tushar</div>
+      </div>
+    </div>
+
+    <div class="screen-body">
+      <div class="search-bar" onclick="MC.go('search')">
+        <span class="search-ico">🔍</span>
+        <span class="search-placeholder">Search medicines, health products...</span>
+      </div>
+
+      <div class="whats-new-card">
+        <div class="wn-head">✨ What's New</div>
+        <div class="wn-row" onclick="MC.go('search')">
+          <span class="wn-ico">🔍</span>
+          <div class="wn-text">
+            <div class="wn-title">Search &amp; Brand Alternatives</div>
+            <div class="wn-sub">Compare substitute brands by price, discount &amp; trust</div>
+          </div>
+          <span class="wn-arrow">›</span>
+        </div>
+        <div class="wn-row" onclick="MC.go('search')">
+          <span class="wn-ico">🔁</span>
+          <div class="wn-text">
+            <div class="wn-title">Subscribe &amp; Save</div>
+            <div class="wn-sub">Recurring delivery for an extra 10% off</div>
+          </div>
+          <span class="wn-arrow">›</span>
+        </div>
+        <div class="wn-row" onclick="MC.go('reorder')">
+          <span class="wn-ico">🩺</span>
+          <div class="wn-text">
+            <div class="wn-title">Smart Prescription Matching</div>
+            <div class="wn-sub">Switch brands instantly via constituent match</div>
+          </div>
+          <span class="wn-arrow">›</span>
+        </div>
+        <div class="wn-row" onclick="MC.go('bag')">
+          <span class="wn-ico">⚡</span>
+          <div class="wn-text">
+            <div class="wn-title">Express Delivery</div>
+            <div class="wn-sub">Get your order in 3 hours for +₹49</div>
+          </div>
+          <span class="wn-arrow">›</span>
+        </div>
+        <div class="wn-row" onclick="MC.toggleAgentPanel()">
+          <span class="mb-avatar mb-avatar-xs">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="10" y="2" width="4" height="4" rx="2" fill="white"/>
+              <rect x="11" y="5" width="2" height="3" fill="white"/>
+              <rect x="2.3" y="11" width="2.2" height="4.4" rx="1.1" fill="white"/>
+              <rect x="19.5" y="11" width="2.2" height="4.4" rx="1.1" fill="white"/>
+              <rect x="5" y="7" width="14" height="12" rx="4" fill="white"/>
+              <circle cx="9.5" cy="12.6" r="1.5" fill="#7c3aed"/>
+              <circle cx="14.5" cy="12.6" r="1.5" fill="#7c3aed"/>
+              <path d="M9 16.1c.9.6 1.9.9 3 .9s2.1-.3 3-.9" stroke="#7c3aed" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+            </svg>
+          </span>
+          <div class="wn-text">
+            <div class="wn-title">MediBuddy</div>
+            <div class="wn-sub">Proactively checks your refill, restocks &amp; cart — tap the bubble anytime</div>
+          </div>
+          <span class="wn-arrow">›</span>
+        </div>
+      </div>
+
+      <div class="card refill-card">
+        <div class="rc-label">Next refill estimated</div>
+        <div class="rc-value" id="home-refill">5 days</div>
+        <div class="rc-meta">
+          <span>Last order: <b id="home-last-total">₹1,840</b></span>
+          <span id="home-item-count">4 medicines</span>
+        </div>
+        <button class="pill-btn" onclick="MC.go('reorder')">Review &amp; Reorder</button>
+      </div>
+
+      <div class="mini-stats">
+        <div class="mini-stat"><div class="n">4</div><div class="l">Active medicines</div></div>
+        <div class="mini-stat"><div class="n">12</div><div class="l">Orders fulfilled</div></div>
+        <div class="mini-stat"><div class="n">98%</div><div class="l">On-time rate</div></div>
+      </div>
+
+      <div class="consult-card">
+        <div class="consult-ico">👨‍⚕️</div>
+        <div class="consult-text">
+          <div class="consult-title">Consult a Doctor</div>
+          <div class="consult-sub">Get expert advice on dosage, side effects, or starting a new medicine.</div>
+        </div>
+        <button class="pill-btn outline" style="width:auto;padding:10px 16px;flex-shrink:0;" onclick="MC.demoConsult()">Book</button>
+      </div>
+
+      <div class="section-label">Shop by category</div>
+      <div class="home-cat-row" id="home-cat-row"></div>
+
+      <div class="section-label">Why reorder here?</div>
+      <div class="card" style="padding:14px 16px;">
+        <div style="font-size:13px;color:var(--color-text-muted);">
+          We check availability and prescription status for every medicine before you pay — so you never discover a problem after checkout.
+        </div>
+      </div>
+
+      <div class="demo-footer-link">
+        Internal view: <a href="ops.html" target="_blank">Open Operations Console →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SEARCH ===================== -->
+  <section class="screen" id="screen-search">
+    <div class="app-header">
+      <div class="title">Search</div>
+    </div>
+
+    <div class="screen-body">
+      <div class="search-bar input-mode">
+        <span class="search-ico">🔍</span>
+        <input type="text" id="search-input" placeholder="Search medicines, health products..." oninput="MC.onSearchInput(this.value)" />
+      </div>
+
+      <div class="chip-row" id="category-chip-row"></div>
+
+      <div class="section-label" id="search-result-label">All products</div>
+      <div id="search-results"></div>
+    </div>
+  </section>
+
+  <!-- ===================== SUBSTITUTES / PRODUCT DETAIL ===================== -->
+  <section class="screen" id="screen-substitutes">
+    <div class="app-header">
+      <button class="back-btn" onclick="MC.go('search')">←</button>
+      <div class="title">Product &amp; Substitutes</div>
+    </div>
+
+    <div class="screen-body">
+      <div id="substitute-original"></div>
+
+      <div class="section-label">Available substitutes <span class="section-new-tag">New</span></div>
+      <p class="substitute-note">Same salt composition, different brand. Compare price and savings before you choose.</p>
+      <div id="substitute-list"></div>
+
+      <div id="substitute-consult"></div>
+    </div>
+  </section>
+
+  <!-- ===================== BAG ===================== -->
+  <section class="screen" id="screen-bag">
+    <div class="app-header">
+      <div class="title">Your Cart</div>
+    </div>
+
+    <div class="screen-body">
+      <div id="bag-contents"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ORDERS ===================== -->
+  <section class="screen" id="screen-orders">
+    <div class="app-header">
+      <div class="title">Your Orders</div>
+    </div>
+
+    <div class="screen-body">
+      <div id="orders-list"></div>
+    </div>
+  </section>
+
+  <!-- ===================== ACCOUNT ===================== -->
+  <section class="screen" id="screen-account">
+    <div class="app-header">
+      <div class="title">Account</div>
+    </div>
+
+    <div class="screen-body">
+      <div class="card" style="display:flex;align-items:center;gap:14px;">
+        <div class="avatar-circle">T</div>
+        <div>
+          <div style="font-weight:800;font-size:15px;" id="account-name">Tushar</div>
+          <div style="font-size:12px;color:var(--color-text-muted);">tushar@demo.local · +91 98XXXXXX10</div>
+        </div>
+      </div>
+
+      <div class="section-label">Manage</div>
+      <div class="account-row"><span>📍</span><span>Saved addresses</span><span class="chev">›</span></div>
+      <div class="account-row"><span>📄</span><span>Prescriptions</span><span class="chev">›</span></div>
+      <div class="account-row"><span>💳</span><span>Payment methods</span><span class="chev">›</span></div>
+      <div class="account-row"><span>🔔</span><span>Notification preferences</span><span class="chev">›</span></div>
+      <div class="account-row"><span>🛟</span><span>Help &amp; support</span><span class="chev">›</span></div>
+
+      <div class="safety-note" style="margin-top:16px;">
+        This is a demo account screen for the Medicine Continuity prototype — no real account data is stored.
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== REVIEW & REORDER ===================== -->
+  <section class="screen" id="screen-reorder">
+    <div class="app-header">
+      <button class="back-btn" onclick="MC.go('home')">←</button>
+      <div>
+        <div class="title">Review &amp; Reorder</div>
+        <div class="subtitle">Based on your order from Sep 5, 2026</div>
+      </div>
+    </div>
+
+    <div class="screen-body">
+      <div id="med-list"></div>
+      <div class="summary-strip" id="reorder-summary"></div>
+    </div>
+
+    <div class="bottom-actions">
+      <button class="pill-btn solid" id="resolve-btn" onclick="MC.startExceptionFlow()">Resolve &amp; Continue</button>
+    </div>
+  </section>
+
+  <!-- ===================== EXCEPTION: UNAVAILABLE ===================== -->
+  <section class="screen" id="screen-exc-unavailable">
+    <div class="app-header">
+      <button class="back-btn" onclick="MC.go('reorder')">←</button>
+      <div>
+        <div class="title">Resolve Issue</div>
+        <div class="subtitle" id="exc-unavail-progress">Issue 1 of 2</div>
+      </div>
+    </div>
+
+    <div class="screen-body">
+      <div class="progress-dots" id="exc-unavail-dots"></div>
+
+      <div class="exception-banner">
+        <div class="ico">⚠</div>
+        <div>
+          <h3 id="exc-unavail-title">Medicine currently unavailable</h3>
+          <p id="exc-unavail-reason">We couldn't fulfil this medicine from your current location.</p>
+        </div>
+      </div>
+
+      <div class="section-label">Choose an action</div>
+      <div class="option-list" id="exc-unavail-options"></div>
+    </div>
+
+    <div class="bottom-actions">
+      <button class="pill-btn solid" id="exc-unavail-continue" onclick="MC.confirmUnavailableChoice()" disabled>Continue</button>
+    </div>
+  </section>
+
+  <!-- ===================== EXCEPTION: PRESCRIPTION ===================== -->
+  <section class="screen" id="screen-exc-prescription">
+    <div class="app-header">
+      <button class="back-btn" onclick="MC.go('reorder')">←</button>
+      <div>
+        <div class="title">Prescription Verification</div>
+        <div class="subtitle" id="exc-presc-progress">Issue 2 of 2</div>
+      </div>
+    </div>
+
+    <div class="screen-body">
+      <div class="progress-dots" id="exc-presc-dots"></div>
+
+      <div class="exception-banner">
+        <div class="ico">⚠</div>
+        <div>
+          <h3>Prescription verification required</h3>
+          <p id="exc-presc-reason">Your previous prescription isn't currently eligible for this refill.</p>
+        </div>
+      </div>
+
+      <div class="rx-onfile-card" id="rx-onfile-info"></div>
+
+      <div class="section-label">Choose any brand with this constituent <span class="section-new-tag">New</span></div>
+      <p class="substitute-note">Same salt, same strength, different brand — verified automatically, no re-upload needed.</p>
+      <div id="rx-brand-options"></div>
+
+      <div class="divider-or"><span>or</span></div>
+
+      <div class="section-label">Keep your original brand</div>
+      <div class="upload-box" id="upload-box">
+        <div class="u-ico">📄</div>
+        <div class="u-text" id="upload-text">No prescription uploaded yet</div>
+        <button class="pill-btn outline" style="width:auto;padding:10px 22px;" onclick="MC.uploadPrescriptionDemo()">Upload Prescription (Demo)</button>
+      </div>
+
+      <button class="pill-btn subtle" style="margin-bottom:16px;" onclick="MC.requestHelp()">Request help from pharmacist</button>
+
+      <div class="divider-or"><span>or</span></div>
+
+      <div class="consult-card">
+        <div class="consult-ico">👨‍⚕️</div>
+        <div class="consult-text">
+          <div class="consult-title">Not sure which to choose?</div>
+          <div class="consult-sub">Get a quick doctor consult before switching brands or re-verifying.</div>
+        </div>
+        <button class="pill-btn outline" style="width:auto;padding:10px 16px;flex-shrink:0;" onclick="MC.demoConsult()">Book</button>
+      </div>
+
+      <div class="safety-note">
+        Medicine Continuity automatically identifies brands with the identical constituent and strength — but you choose whether to switch. It never changes dosage, strength, or recommends a different medicine; a pharmacist always makes that clinical call.
+      </div>
+    </div>
+
+    <div class="bottom-actions">
+      <button class="pill-btn solid" id="exc-presc-continue" onclick="MC.confirmPrescriptionChoice()" disabled>Continue with original brand</button>
+    </div>
+  </section>
+
+  <!-- ===================== TRANSPARENT CART ===================== -->
+  <section class="screen" id="screen-cart">
+    <div class="app-header">
+      <button class="back-btn" onclick="MC.go('reorder')">←</button>
+      <div>
+        <div class="title">Your Order</div>
+        <div class="subtitle">Transparent pricing — no surprises at checkout</div>
+      </div>
+    </div>
+
+    <div class="screen-body">
+      <div id="cart-rx-banner"></div>
+
+      <div class="section-label">In this order</div>
+      <div class="card" style="padding:4px 16px;" id="cart-lines"></div>
+
+      <div id="cart-excluded-notes"></div>
+
+      <div class="section-label">Delivery speed <span class="section-new-tag">New</span></div>
+      <div id="cart-delivery"></div>
+
+      <div class="card cart-totals" id="cart-totals"></div>
+    </div>
+
+    <div class="bottom-actions">
+      <button class="pill-btn solid" onclick="MC.placeOrder()">Confirm &amp; Pay</button>
+    </div>
+  </section>
+
+  <!-- ===================== CONFIRMATION ===================== -->
+  <section class="screen" id="screen-confirm">
+    <div class="app-header" style="justify-content:center;">
+      <div class="title">Order Confirmed</div>
+    </div>
+
+    <div class="screen-body">
+      <div class="confirm-check">✓</div>
+      <div class="confirm-title">Order #1051 placed</div>
+      <div class="confirm-sub">We'll keep you updated at every step — no guessing required.</div>
+
+      <div class="card" id="confirm-summary"></div>
+    </div>
+
+    <div class="bottom-actions">
+      <button class="pill-btn solid" onclick="MC.go('trust')">Track Order (Trust Timeline)</button>
+      <button class="pill-btn outline" onclick="MC.restart()">Back to Home</button>
+    </div>
+  </section>
+
+  <!-- ===================== TRUST TIMELINE ===================== -->
+  <section class="screen" id="screen-trust">
+    <div class="app-header">
+      <button class="back-btn" onclick="MC.go('confirm')">←</button>
+      <div>
+        <div class="title">Order Trust Timeline</div>
+        <div class="subtitle">Order #1051</div>
+      </div>
+    </div>
+
+    <div class="screen-body">
+      <div class="timeline" id="trust-timeline"></div>
+
+      <div class="delay-box" id="delay-box">
+        <div class="delay-head" onclick="MC.toggleDelay()">
+          <span id="delay-head-text">Why is my order delayed?</span>
+          <span class="chev">⌄</span>
+        </div>
+        <div class="delay-body" id="delay-body"></div>
+      </div>
+    </div>
+
+    <div class="bottom-actions">
+      <button class="pill-btn outline" onclick="MC.restart()">Back to Home</button>
+    </div>
+  </section>
+
+  <!-- ===================== BOTTOM NAV ===================== -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="nav-item" data-tab="home" onclick="MC.go('home')"><span class="nav-ico">🏠</span><span>Home</span></button>
+    <button class="nav-item" data-tab="search" onclick="MC.go('search')"><span class="nav-ico">🔍<span class="nav-new-dot"></span></span><span>Search</span></button>
+    <button class="nav-item" data-tab="bag" onclick="MC.go('bag')">
+      <span class="nav-ico nav-ico-bag">🛒<span class="nav-badge" id="nav-bag-badge">0</span></span><span>Cart</span>
+    </button>
+    <button class="nav-item" data-tab="orders" onclick="MC.go('orders')"><span class="nav-ico">📦</span><span>Orders</span></button>
+    <button class="nav-item" data-tab="account" onclick="MC.go('account')"><span class="nav-ico">👤</span><span>Account</span></button>
+  </nav>
+
+  <div class="toast" id="app-toast"></div>
+
+  <!-- ===================== MEDIBUDDY (floating) ===================== -->
+  <button class="agent-bubble" id="agent-bubble" onclick="MC.toggleAgentPanel()">
+    <span class="agent-bubble-ico">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="10" y="2" width="4" height="4" rx="2" fill="white"/>
+        <rect x="11" y="5" width="2" height="3" fill="white"/>
+        <rect x="2.3" y="11" width="2.2" height="4.4" rx="1.1" fill="white"/>
+        <rect x="19.5" y="11" width="2.2" height="4.4" rx="1.1" fill="white"/>
+        <rect x="5" y="7" width="14" height="12" rx="4" fill="white"/>
+        <circle cx="9.5" cy="12.6" r="1.5" fill="#7c3aed"/>
+        <circle cx="14.5" cy="12.6" r="1.5" fill="#7c3aed"/>
+        <path d="M9 16.1c.9.6 1.9.9 3 .9s2.1-.3 3-.9" stroke="#7c3aed" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      </svg>
+    </span>
+    <span class="agent-bubble-dot" id="agent-bubble-dot"></span>
+  </button>
+
+  <div class="agent-panel-backdrop" id="agent-panel-backdrop" onclick="MC.closeAgentPanel()"></div>
+  <div class="agent-panel" id="agent-panel">
+    <div class="agent-panel-header">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="mb-avatar mb-avatar-sm">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="10" y="2" width="4" height="4" rx="2" fill="white"/>
+            <rect x="11" y="5" width="2" height="3" fill="white"/>
+            <rect x="2.3" y="11" width="2.2" height="4.4" rx="1.1" fill="white"/>
+            <rect x="19.5" y="11" width="2.2" height="4.4" rx="1.1" fill="white"/>
+            <rect x="5" y="7" width="14" height="12" rx="4" fill="white"/>
+            <circle cx="9.5" cy="12.6" r="1.5" fill="#7c3aed"/>
+            <circle cx="14.5" cy="12.6" r="1.5" fill="#7c3aed"/>
+            <path d="M9 16.1c.9.6 1.9.9 3 .9s2.1-.3 3-.9" stroke="#7c3aed" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+          </svg>
+        </span>
+        <div>
+          <div class="agent-panel-title">MediBuddy <span class="new-badge">New</span></div>
+          <div class="agent-panel-sub">AI-powered restock &amp; cart assistant</div>
+        </div>
+      </div>
+      <button class="agent-panel-close" onclick="MC.closeAgentPanel()">✕</button>
+    </div>
+    <div class="agent-panel-body" id="agent-panel-body"></div>
+  </div>
+
+</div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

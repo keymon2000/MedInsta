@@ -1,0 +1,60 @@
+/* ------------------------------------------------------------------
+   Medicine Continuity — Operations Console
+   ------------------------------------------------------------------ */
+
+.ops-shell { padding: 28px 0 60px; }
+.ops-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 22px; flex-wrap: wrap; gap: 12px; }
+.ops-header h1 { font-size: 22px; margin: 0 0 4px; }
+.ops-header p { margin: 0; color: var(--color-text-muted); font-size: 13.5px; }
+
+.ops-layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+@media (max-width: 920px) { .ops-layout { grid-template-columns: 1fr; } }
+
+.ops-table-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-card); }
+.ops-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.ops-table th { text-align: left; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--color-text-muted); padding: 12px 16px; border-bottom: 1px solid var(--color-border); background: var(--color-bg); }
+.ops-table td { padding: 14px 16px; border-bottom: 1px solid var(--color-border); vertical-align: middle; }
+.ops-table tr:last-child td { border-bottom: none; }
+.ops-table tr.row-clickable { cursor: pointer; }
+.ops-table tr.row-clickable:hover { background: var(--color-primary-soft); }
+.ops-table tr.row-active { background: var(--color-primary-soft); }
+.ops-table .cust { font-weight: 700; }
+.ops-table .ord { color: var(--color-text-muted); font-size: 12.5px; }
+
+.status-pill { font-size: 11px; font-weight: 800; padding: 4px 10px; border-radius: 999px; display: inline-block; }
+.status-pill.Recovery { background: var(--color-warning-soft); color: var(--color-warning); }
+.status-pill.Pending { background: var(--color-primary-soft); color: var(--color-primary-dark); }
+.status-pill.Escalated { background: var(--color-danger-soft); color: var(--color-danger); }
+.status-pill.Resolved { background: var(--color-success-soft); color: var(--color-success); }
+
+.review-link { color: var(--color-primary); font-weight: 700; font-size: 13px; text-decoration: none; }
+
+.ops-detail { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow-card); position: sticky; top: 90px; }
+.ops-detail .d-empty { color: var(--color-text-muted); font-size: 13.5px; text-align: center; padding: 40px 10px; }
+.ops-detail h3 { margin: 0 0 2px; font-size: 16px; }
+.ops-detail .d-sub { font-size: 12.5px; color: var(--color-text-muted); margin-bottom: 18px; }
+
+.activity-list { list-style: none; margin: 0 0 20px; padding: 0; }
+.activity-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; padding: 7px 0; }
+.a-ico { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; margin-top: 1px; }
+.a-ico.done { background: var(--color-success-soft); color: var(--color-success); }
+.a-ico.warning { background: var(--color-warning-soft); color: var(--color-warning); }
+.a-ico.pending { background: var(--color-border); color: var(--color-text-muted); }
+
+.ops-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.ops-actions button {
+  flex: 1; min-width: 100px; padding: 10px 12px; border-radius: 10px; font-size: 12.5px; font-weight: 700;
+  border: 1px solid var(--color-border); background: var(--color-bg); cursor: pointer;
+}
+.ops-actions button.primary { background: var(--color-primary); color: white; border-color: var(--color-primary); }
+.ops-actions button.primary:hover { background: var(--color-primary-dark); }
+.ops-actions button:not(.primary):hover { background: var(--color-primary-soft); border-color: var(--color-primary); }
+
+.section-label { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-muted); margin: 18px 0 8px; }
+
+.toast {
+  position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(10px);
+  background: var(--color-text); color: white; padding: 10px 18px; border-radius: 999px;
+  font-size: 13px; font-weight: 600; opacity: 0; pointer-events: none; transition: all 0.2s;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }

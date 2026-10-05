@@ -1,0 +1,73 @@
+/* ------------------------------------------------------------------
+   MedInsta — Shared design tokens + top nav (used by ops.html;
+   app.html's phone UI lives entirely in css/app.css)
+   ------------------------------------------------------------------ */
+
+:root {
+  --color-bg: #fbf7f3;
+  --color-surface: #ffffff;
+  --color-border: #ede3da;
+  --color-text: #22201d;
+  --color-text-muted: #6b6560;
+  --color-primary: #fc6a2d;
+  --color-primary-dark: #d94e14;
+  --color-primary-soft: #fff0e6;
+  --color-primary-accent: #ffa14d;
+  --color-success: #1aa672;
+  --color-success-soft: #e7f7f0;
+  --color-warning: #c28a06;
+  --color-warning-soft: #fdf3da;
+  --color-danger: #d6455a;
+  --color-danger-soft: #fceaec;
+  --color-new: #7c3aed;
+  --color-new-soft: #f3e8ff;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --shadow-card: 0 1px 2px rgba(20, 30, 60, 0.04), 0 8px 24px rgba(20, 30, 60, 0.06);
+  --font: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+a { color: var(--color-primary); }
+
+.wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ---------- Top nav ---------- */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+}
+.site-nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; }
+.brand-mark {
+  width: 30px; height: 30px; border-radius: 9px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-accent));
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-size: 15px; font-weight: 800;
+}
+.nav-links { display: flex; align-items: center; gap: 24px; font-size: 14px; }
+.nav-links a { color: var(--color-text-muted); text-decoration: none; font-weight: 600; }
+.nav-links a:hover { color: var(--color-text); }
+
+.chip {
+  font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px;
+  background: var(--color-primary-soft); color: var(--color-primary-dark);
+}
